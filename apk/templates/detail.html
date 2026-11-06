@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Detail</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .detail-info {
+            margin-top: 20px;
+        }
+
+        .detail-info h2 {
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .detail-info p {
+            font-size: 1em;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .detail-info img {
+            max-width: 150px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+
+        .btn-back {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .btn-back:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Volunteer Detail</h1>
+        <div class="detail-info">
+            <h2>{{ detail_info.username }}</h2>
+            <p><strong>Email:</strong> {{ detail_info.email }}</p>
+            <p><strong>Age:</strong> {{ detail_info.age }}</p>
+            <p><strong>Skills:</strong> {{ detail_info.skills }}</p>
+            <p><strong>Location:</strong> {{ detail_info.location }}</p>
+            <p><strong>Gender:</strong> {{ detail_info.gender }}</p>
+            <p><strong>Status:</strong> {{ detail_info.status }}</p>
+            {% if detail_info.profile_picture %}
+                <img src="{{ detail_info.profile_picture.url }}" alt="Profile Picture">
+            {% else %}
+                <p>No profile picture available.</p>
+            {% endif %}
+        </div>
+        <a href="{% url 'v_notifications' %}" class="btn-back">Back to Volunteer Notification</a>
+    </div>
+</body>
+</html>

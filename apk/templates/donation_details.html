@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Donations</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+            
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Your Donations</h2>
+
+            <!-- Donor Details -->
+            <div class="bg-blue-100 p-4 rounded-lg mb-6">
+                <p class="text-lg font-semibold text-gray-800">Donor: {{ donor.username }}</p>
+                <p class="text-gray-700">Email: {{ donor.email }}</p>
+                <p class="text-gray-700">Phone: {{ donor.phone_number }}</p>
+            </div>
+
+            {% if donations %}
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow">
+                        <thead>
+                            <tr class="bg-gray-200 text-gray-700">
+                                <th class="py-2 px-4 border">Need</th>
+                                <th class="py-2 px-4 border">Description</th>
+                                <th class="py-2 px-4 border">Camp Name</th>
+                                <th class="py-2 px-4 border">Location</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for donation in donations %}
+                            <tr class="border-t">
+                                <td class="py-2 px-4 border">{{ donation.need.get_needs_display }}</td>
+                                <td class="py-2 px-4 border">{{ donation.need.description }}</td>
+                                <td class="py-2 px-4 border">{{ donation.need.user.name }}</td>
+                                <td class="py-2 px-4 border">{{ donation.need.user.location }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-gray-600 mt-4">You have not made any donations yet.</p>
+            {% endif %}
+            
+            <div class="mt-6">
+                <a href="/donorhome/" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disaster Camp Management</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            background: linear-gradient(180deg, #007bff, #1e90ff, #00bfff);
+            padding-top: 20px;
+        }
+        .sidebar .nav-link {
+            color: white;
+            padding: 10px;
+            display: block;
+        }
+        .sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+        }
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            width: 100%;
+        }
+        .carousel-item img {
+            object-fit: cover;
+            height: 500px;
+        }
+        .section-title {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .cta {
+            background-color:rgb(109, 159, 210);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .cta h2 {
+            margin-bottom: 20px;
+        }
+        .cta a {
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h3 class="text-center text-white">Disaster Camp</h3>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/donorprofile/">Profile</a></li>
+            <li class="nav-item"><a class="nav-link" href="/camplist/">Camps</a></li>
+            <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+            <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="/donation_requests/">Donation Requests</a></li>
+            <li class="nav-item"><a class="nav-link" href="/donation_form/">Donate Amount</a></li>
+            <li class="nav-item"><a class="nav-link" href="/donation_details/">Donation Details</a></li>
+            <li class="nav-item"><a class="nav-link" href="/tracking/">Help</a></li>
+            <li class="nav-item"><a class="nav-link" href="/logout/">Logout</a></li>
+        </ul>
+    </div>
+    
+
+    <div class="content">
+        <!-- Carousel -->
+         <div>
+            <h1 class="text-center">Welcome Donor!</h1>
+        </div>
+        <div class="cta">
+            <h2>Help us in providing relief to disaster victims.</h2>
+            <a href="/donation_form/" class="btn btn-lg btn-primary">Donate Now</a>
+        </div>
+        <div id="disasterCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="{% static 'img/fl2.jpg' %}" class="d-block w-100" alt="Disaster Relief">
+                </div>
+                {% comment %} <div class="carousel-item">
+                    <img src="{% static 'img/fl1.jpg' %}" class="d-block w-100" alt="Volunteers">
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'img/fl1.jpg' %}" class="d-block w-100" alt="Resource Allocation">
+                </div> {% endcomment %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#disasterCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#disasterCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+        <!-- Services Section -->
+        <section id="services" class="py-5">
+            <div class="container">
+                <h2 class="section-title">Our Services</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src="{% static 'img/fl1.jpg' %}" class="card-img-top" alt="Camp Setup">
+                            <div class="card-body">
+                                <h5 class="card-title">Camp Setup</h5>
+                                <p class="card-text">Setting up camps quickly and efficiently with proper infrastructure.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src="{% static 'img/OIP (1).jpg' %}" class="card-img-top" alt="Health Services">
+                            <div class="card-body">
+                                <h5 class="card-title">Health Services</h5>
+                                <p class="card-text">Providing medical support and healthcare services at camp locations.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src="{% static 'img/fl4.jpg' %}" class="card-img-top" alt="Resource Management">
+                            <div class="card-body">
+                                <h5 class="card-title">Resource Management</h5>
+                                <p class="card-text">Managing food, water, and other essential supplies for disaster victims.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

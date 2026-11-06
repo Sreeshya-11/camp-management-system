@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- donations/offer.html -->
+<h2>Offer Donation for: {{ donation_request.title }}</h2>
+<form method="POST">
+  {% csrf_token %}
+  <label for="offered_item">Item:</label>
+  <input type="text" name="offered_item" required><br>
+  
+  <label for="offered_service">Service (optional):</label>
+  <input type="text" name="offered_service"><br>
+  
+  <button type="submit">Submit Offer</button>
+</form>
+
+</body>
+</html>

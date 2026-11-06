@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-md bg-white shadow-md rounded-lg p-4">
+        <h2 class="text-xl font-semibold mb-3">Notifications</h2>
+
+        {% if n %}
+            <div class="space-y-3 max-h-80 overflow-y-auto">
+                {% for notif in n %}
+                    <div class="p-3 rounded-lg bg-gray-100">
+                        <p class="text-gray-800">{{ notif.message }}</p>
+                        <span class="text-xs text-gray-500">{{ notif.created_at }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-gray-500 text-center">No new notifications.</p>
+        {% endif %}
+    </div>
+
+</body>
+</html>

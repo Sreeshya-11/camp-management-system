@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profiles</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-6">
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">User Profiles</h1>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+                <thead class="bg-gray-800 text-white">
+                    <tr>
+                        <th class="py-3 px-4 border-b border-gray-300 text-left">Profile Picture</th>
+                        <th class="py-3 px-4 border-b border-gray-300 text-left">Username</th>
+                        <th class="py-3 px-4 border-b border-gray-300 text-left">Email</th>
+                        <th class="py-3 px-4 border-b border-gray-300 text-left">Bio</th>
+                        <th class="py-3 px-4 border-b border-gray-300 text-left">Actions</th>
+                        <th class="py-3 px-4 border-b border-gray-300 text-left">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in prof %}
+                        <tr class="hover:bg-gray-50">
+                            <td class="py-3 px-4 border-b border-gray-300">
+                                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="w-16 h-16 rounded-full object-cover">
+                            </td>
+                            <td class="py-3 px-4 border-b border-gray-300">{{ user.username }}</td>
+                            <td class="py-3 px-4 border-b border-gray-300">{{ user.email }}</td>
+                            <td class="py-3 px-4 border-b border-gray-300">{{ user.bio }}</td>
+                            <td class="py-3 px-4 border-b border-gray-300">
+                            <a href="#" class="text-blue-500 hover:text-blue-700">View Profile</a>
+                            </td>
+                            <td><a href="/deluser/{{ user.id }}">Delete</a></td>
+                        <td>
+                            <form method="POST" action="{%url 'update_status'%}">
+                                {% csrf_token %}
+                                <input type="hidden" name="email" value="{{user.email}}">
+                                <select name="status">
+                                    <option value="applied" {% if user.status == 'applied' %}selected{% endif %}>Applied</option>
+                                    <option value="approved" {% if user.status == 'approved' %}selected{% endif %}>Approved</option>
+                                    <option value="rejected" {% if user.status == 'rejected' %}selected{% endif %}>Rejected</option>
+                                </select>
+                                <button type="submit">Update Status</button>
+                            </form>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-4xl mx-auto p-8">
+        <h2 class="text-2xl font-semibold mb-6 text-center">Donate to {{ need.needs }}</h2>
+        
+        <div class="bg-white p-6 rounded-lg shadow-md border border-gray-300 mb-6">
+            <p><strong>Need:</strong> {{ need.needs }}</p>
+            <p><strong>Description:</strong> {{ need.description }}</p>
+            <p><strong>Camp Name:</strong> {{ need.user.name }}</p>
+            <p><strong>Camp Contact Number:</strong> {{ need.user.contact_information }}</p>
+        </div>
+
+        <!-- Razorpay Donation Button -->
+        <form action="{% url 'payment_success' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="razorpay_payment_id" value="{{ payment.id }}">
+            <input type="hidden" name="razorpay_order_id" value="{{ payment.id }}">
+            <input type="hidden" name="razorpay_signature" value="{{ payment.signature }}">
+
+            <button id="rzp-button" class="bg-blue-500 text-white px-4 py-2 rounded shadow-md">Complete Payment</button>
+        </form>
+
+        <script type="text/javascript">
+            var options = {
+                "key": "YOUR_KEY_ID",  // Replace with your Razorpay key
+                "amount": {{ payment.amount }},
+                "currency": "INR",
+                "order_id": "{{ payment.id }}",
+                "handler": function (response) {
+                    alert("Payment successful: " + response.razorpay_payment_id);
+                },
+                "prefill": {
+                    "name": "Your Name",
+                    "email": "your-email@example.com",
+                    "contact": "9876543210"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            
+            var rzp1 = new Razorpay(options);
+            document.getElementById('rzp-button').onclick = function(e) {
+                e.preventDefault();
+                rzp1.open();
+            };
+        </script>
+    </div>
+</body>
+</html>

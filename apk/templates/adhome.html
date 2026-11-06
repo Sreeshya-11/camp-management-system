@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Disaster Camp Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Sidebar -->
+    <div class="flex h-screen">
+        <aside class="w-64 bg-blue-900 text-white p-6">
+            <h2 class="text-2xl font-bold mb-6">Admin Dashboard</h2>
+            <nav>
+                <ul>
+                    <li class="mb-2">
+                        <a href="#" class="block py-2 px-4 rounded hover:bg-blue-700">Home</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="/profilelist/" class="block py-2 px-4 rounded hover:bg-blue-700">User List</a>
+                    </li>
+                    {% comment %} <li class="mb-2">
+                        <a href="/productlist/" class="block py-2 px-4 rounded hover:bg-blue-700">Product List</a>
+                    </li> {% endcomment %}
+                    <li class="mb-2">
+                        <a href="/camplist/" class="block py-2 px-4 rounded hover:bg-blue-700">Camps</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="/volunteerlist/" class="block py-2 px-4 rounded hover:bg-blue-700">Volunteers</a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="/addnotification/" class="block py-2 px-4 rounded hover:bg-blue-700">Add Notification</a>
+                    </li>
+                    {% comment %} <li class="mb-2">
+                        <a href="/addroute/" class="block py-2 px-4 rounded hover:bg-blue-700">Evacuation Routes</a>
+                    </li> {% endcomment %}
+                    {% comment %} <li class="mb-2">
+                        <a href="/requests/" class="block py-2 px-4 rounded hover:bg-blue-700">Requests</a>
+                    </li> {% endcomment %}
+                    <li class="mb-2">
+                        <a href="/notif_list_from_admin/" class="block py-2 px-4 rounded hover:bg-blue-700">Notifications</a>
+                    </li>
+                    <li class="mt-4">
+                        <a href="/logout/" class="block py-2 px-4 rounded bg-red-600 hover:bg-red-700">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6">
+            <!-- Header -->
+            <header class="mb-6">
+                <h1 class="text-3xl font-bold text-gray-700">Welcome, Admin</h1>
+            </header>
+
+            <!-- Carousel -->
+            <div class="relative w-full overflow-hidden rounded-lg">
+                <div class="flex transition-transform duration-700 ease-in-out">
+                    <img src="https://daanadcms.org/wp-content/uploads/2022/11/keralafloods-1.jpg" class="w-full h-64 object-cover rounded-lg" alt="Disaster Relief">
+                </div>
+            </div>
+
+            <!-- Services Section -->
+            <section class="mt-6">
+                <h2 class="text-2xl font-bold text-gray-700 mb-4">Our Services</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white p-4 shadow-md rounded-lg">
+                        <img src="https://daanadcms.org/wp-content/uploads/2022/11/keralafloods-1.jpg" class="w-full h-40 object-cover rounded-lg" alt="Camp Setup">
+                        <h3 class="text-lg font-semibold mt-2">Camp Setup</h3>
+                        <p class="text-gray-600">Quick and efficient disaster camp setup.</p>
+                    </div>
+                    <div class="bg-white p-4 shadow-md rounded-lg">
+                        <img src="https://www.tatatrusts.org/Upload/Images/thumbnail/disaster-relief-and-rehabilitation-mast1.jpg" class="w-full h-40 object-cover rounded-lg" alt="Health Services">
+                        <h3 class="text-lg font-semibold mt-2">Health Services</h3>
+                        <p class="text-gray-600">Providing medical support and healthcare.</p>
+                    </div>
+                    <div class="bg-white p-4 shadow-md rounded-lg">
+                        <img src="https://th-i.thgim.com/public/incoming/z8oyqg/article68476810.ece/alternates/FREE_1200/IMG_80692_31_7_2024_20_0_2_1_5JD4SPKF.jpg" class="w-full h-40 object-cover rounded-lg" alt="Resource Management">
+                        <h3 class="text-lg font-semibold mt-2">Resource Management</h3>
+                        <p class="text-gray-600">Managing essential supplies efficiently.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="mt-8 text-center bg-blue-600 text-white p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-bold">Join Our Efforts in Disaster Management</h2>
+                <p class="mt-2">Together, we can make a difference. Get involved today.</p>
+                <a href="#" class="mt-4 inline-block px-6 py-2 bg-white text-blue-600 rounded-lg shadow hover:bg-gray-200">Get Involved</a>
+            </section>
+        </main>
+    </div>
+
+</body>
+</html>

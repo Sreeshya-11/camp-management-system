@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white shadow-lg rounded-lg p-6 w-full max-w-md">
+        <h2 class="text-2xl font-semibold text-center text-gray-700 mb-4">Donor Registration</h2>
+
+        <form id="donorForm" action="" method="POST" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+
+            <div>
+                <label class="block text-gray-600 text-sm font-medium">Username</label>
+                <input type="text" id="username" name="username" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                <p class="text-red-500 text-sm mt-1 hidden" id="usernameError">Username is required</p>
+            </div>
+
+            <div>
+                <label class="block text-gray-600 text-sm font-medium">Email</label>
+                <input type="email" id="email" name="email" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                <p class="text-red-500 text-sm mt-1 hidden" id="emailError">Enter a valid email</p>
+            </div>
+
+            <div>
+                <label class="block text-gray-600 text-sm font-medium">Password</label>
+                <input type="password" id="password" name="password" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                <p class="text-red-500 text-sm mt-1 hidden" id="passwordError">Password must be at least 6 characters</p>
+            </div>
+        <div><label class="block text-gray-600 text-sm font-medium">Phone</label>
+            <input type="text" id="phone_number" name="phone_number" maxlength="10"
+       class="w-full p-2 border rounded focus:ring focus:ring-blue-300"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"></div>
+
+
+       <div>
+       <label class="block text-gray-600 text-sm font-medium">Aadhaar No</label>
+<input type="text" id="Aadhaar_No" name="Aadhaar_No" maxlength="12"
+       class="w-full p-2 border rounded focus:ring focus:ring-blue-300"
+       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 12)">
+    </div>
+
+            <div>
+                <label class="block text-gray-600 text-sm font-medium">Address</label>
+                <textarea id="address" name="address" rows="3" class="w-full p-2 border rounded focus:ring focus:ring-blue-300"></textarea>
+                <p class="text-red-500 text-sm mt-1 hidden" id="addressError">Address is required</p>
+            </div>
+
+            <div>
+                <label class="block text-gray-600 text-sm font-medium">Bio</label>
+                <textarea id="bio" name="bio" rows="2" class="w-full p-2 border rounded focus:ring focus:ring-blue-300"></textarea>
+                <p class="text-red-500 text-sm mt-1 hidden" id="bioError">Bio is required</p>
+            </div>
+
+            <div>
+                <label class="block text-gray-600 text-sm font-medium">Profile Picture</label>
+                <input type="file" id="profile_picture" name="profile_picture" class="w-full p-2 border rounded focus:ring focus:ring-blue-300">
+                <p class="text-red-500 text-sm mt-1 hidden" id="profilePictureError">Only JPG, PNG, JPEG allowed</p>
+            </div>
+
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                Register
+            </button>
+
+            <p class="text-center text-sm text-gray-600 mt-2">
+                Already have an account? 
+                <a href="{% url 'donorlogin' %}" class="text-blue-600 hover:underline">Login here</a>
+            </p>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("donorForm").addEventListener("input", function(event) {
+            validateField(event.target);
+        });
+
+        document.getElementById("donorForm").addEventListener("submit", function(event) {
+            let isValid = validateForm();
+            if (!isValid) event.preventDefault();
+        });
+
+        function validateForm() {
+            let fields = ["username", "email", "password", "phone_number", "Aadhaar_No", "address", "bio", "profile_picture"];
+            let isValid = true;
+
+            fields.forEach(field => {
+                let input = document.getElementById(field);
+                if (!validateField(input)) isValid = false;
+            });
+
+            return isValid;
+        }
+
+        function validateField(input) {
+            let value = input.value.trim();
+            let errorElement = document.getElementById(input.id + "Error");
+
+            if (input.id === "username" && value === "") {
+                showError(errorElement, "Username is required");
+                return false;
+            } else if (input.id === "email" && !/^\S+@\S+\.\S+$/.test(value)) {
+                showError(errorElement, "Enter a valid email");
+                return false;
+            } else if (input.id === "password" && value.length < 6) {
+                showError(errorElement, "Password must be at least 6 characters");
+                return false;
+            } else if (input.id === "phone_number" && !/^\d{10}$/.test(value)) {
+                showError(errorElement, "Enter a valid 10-digit phone number");
+                return false;
+            } else if (input.id === "Aadhaar_No" && !/^\d{12}$/.test(value)) {
+                showError(errorElement, "Aadhaar must be 12 digits");
+                return false;
+            } else if ((input.id === "address" || input.id === "bio") && value === "") {
+                showError(errorElement, `${input.id.charAt(0).toUpperCase() + input.id.slice(1)} is required`);
+                return false;
+            } else if (input.id === "profile_picture") {
+                let file = input.files[0];
+                if (file && !["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
+                    showError(errorElement, "Only JPG, PNG, JPEG allowed");
+                    return false;
+                }
+            }
+
+            hideError(errorElement);
+            return true;
+        }
+
+        function showError(element, message) {
+            element.textContent = message;
+            element.classList.remove("hidden");
+        }
+
+        function hideError(element) {
+            element.classList.add("hidden");
+        }
+    </script>
+
+</body>
+</html>

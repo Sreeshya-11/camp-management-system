@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Applications</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex justify-center items-center">
+
+    <div class="bg-white shadow-lg rounded-lg p-6 max-w-4xl w-full">
+        <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">My Applications</h2>
+
+        {% if applications %}
+            <div class="space-y-4">
+                {% for application in applications %}
+                    <div class="bg-gray-50 p-5 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-xl font-semibold text-gray-700">{{ application.camp.name }}</h3>
+                        <p class="text-sm text-gray-500">Applied on: {{ application.applied_at|date:"F j, Y" }}</p>
+                        <p class="mt-2 text-gray-600"><strong>Status:</strong> 
+                            <span class="px-2 py-1 rounded-full 
+                                {% if application.status == 'accepted' %} bg-green-200 text-green-700 
+                                {% elif application.status == 'pending' %} bg-yellow-200 text-yellow-700 
+                                {% else %} bg-red-200 text-red-700 {% endif %}">
+                                {{ application.status|title }}
+                            </span>
+                        </p>
+                        {% if application.message %}
+                            <p class="mt-2 text-gray-600"><strong>Your Message:</strong> {{ application.message }}</p>
+                        {% endif %}
+                        {% if application.resume %}
+                            <p class="mt-2 text-gray-600">
+                                <strong>Resume:</strong> 
+                                <a href="{{ application.resume.url }}" target="_blank" class="text-blue-500 hover:underline">View Resume</a>
+                            </p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center text-gray-500">You haven't applied for any camps yet.</p>
+        {% endif %}
+
+        <div class="mt-6 text-center">
+            <a href="/vhome/" class="text-blue-500 hover:underline">← Back to Dashboard</a>
+        </div>
+    </div>
+
+</body>
+</html>

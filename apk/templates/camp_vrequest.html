@@ -1,0 +1,188 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteers Requisite</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center">
+    <div class="w-full max-w-5xl bg-white p-8 rounded-lg shadow-lg flex">
+        
+        <!-- Left Section: Notifications -->
+        <div class="w-1/4 border-r p-4">
+            <h2 class="text-xl font-bold mb-4">Notifications</h2>
+            <ul class="space-y-2">
+                <li class="p-2 bg-gray-200 rounded">
+                    <a href="/v_notif_from_camp/" class="text-blue-600 hover:underline">Show Requests</a>
+                </li>
+                <li class="p-2 bg-gray-200 rounded">
+                    <a href="/camp_vrequest/" class="text-blue-600 hover:underline">Send Requests</a>
+                </li>
+                <li class="p-2 bg-gray-200 rounded">
+                    <a href="/camp_applications/" class="text-blue-600 hover:underline">Applications</a>
+                </li>
+            </ul>
+            
+        </div>
+        
+        <!-- Middle Section: Volunteer Form -->
+        <div class="w-1/2 border-r p-4">
+            <h2 class="text-xl font-bold mb-4">Volunteer Request</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="name" class="block text-sm font-bold">Camp Name:</label>
+                    <input type="text" id="name" name="name" class="w-full p-2 border rounded" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="block text-sm font-bold">Email:</label>
+                    <input type="email" id="email" name="email" class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-3">
+                    <label for="cnumber" class="block text-sm font-bold">Contact Number:</label>
+                    <input type="text" id="cnumber" name="cnumber" class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-3">
+                    <label for="start_day" class="block text-sm font-bold">Start Date:</label>
+                    <input type="date" id="start_day" name="start_day" class="w-full p-2 border rounded">
+                </div>
+                <div class="mb-4">
+                    <label for="skills" class="block text-sm font-bold">Skills:</label>
+                    <select id="skills" name="skills" class="w-full p-2 border rounded">
+                        <option value="communication">Communication</option>
+                        <option value="firstaid">First Aid</option>
+                        <option value="physical fitness">Physical Fitness</option>
+                        <option value="technology skills">Technology Skills</option>
+                        <option value="organzing skills">Organizing Skills</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+                <div id="other_input_div" class="mb-4 hidden">
+                    <label for="other_input" class="block text-sm font-bold">Please specify:</label>
+                    <input type="text" id="other_input" name="other_input" class="w-full p-2 border rounded" placeholder="Enter your skill type">
+                </div>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit Request</button>
+            </form>
+        </div>
+        
+        <!-- Right Section: Messages -->
+        <div class="w-1/4 p-4">
+            <h2 class="text-xl font-bold mb-4">Messages</h2>
+            <textarea id="v_message" name="v_message" rows="8" class="w-full p-2 border rounded" placeholder="Enter your message"></textarea>
+        </div>
+    </div>
+    <script>
+        document.getElementById('skills').addEventListener('change', function() {
+            var otherInputDiv = document.getElementById('other_input_div');
+            otherInputDiv.style.display = this.value === 'others' ? 'block' : 'none';
+        });
+    </script>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteers Requisite</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 h-screen flex items-center justify-center">
+    <div class="w-full max-w-5xl bg-white rounded-lg shadow-xl flex divide-x divide-amber-100">
+        <!-- Left Section: Notifications -->
+        <div class="w-1/4 p-6 bg-gray-50">
+            <h2 class="text-xl font-bold mb-4 text-amber-900">Notifications</h2>
+            <ul class="space-y-3">
+                <li class="p-3 bg-amber-50 rounded-lg hover:bg-amber-100 transition-colors">
+                    <a href="/v_notif_from_camp/" class="text-amber-800 hover:text-amber-900 font-medium">Show Requests</a>
+                </li>
+                <li class="p-3 bg-amber-50 rounded-lg hover:bg-amber-100 transition-colors">
+                    <a href="/camp_vrequest/" class="text-amber-800 hover:text-amber-900 font-medium">Send Requests</a>
+                </li>
+                <li class="p-3 bg-amber-50 rounded-lg hover:bg-amber-100 transition-colors">
+                    <a href="/camp_applications/" class="text-amber-800 hover:text-amber-900 font-medium">Applications</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Middle Section: Volunteer Form -->
+        <div class="w-1/2 p-6">
+            <h2 class="text-xl font-bold mb-6 text-amber-900">Volunteer Request</h2>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <div>
+                    <label for="name" class="block text-sm font-medium text-amber-800 mb-2">Camp Name</label>
+                    <input type="text" id="name" name="name" 
+                           class="w-full px-3 py-2 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500">
+                </div>
+                
+                <div>
+                    <label for="email" class="block text-sm font-medium text-amber-800 mb-2">Email</label>
+                    <input type="email" id="email" name="email" 
+                           class="w-full px-3 py-2 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500">
+                </div>
+                
+                <div>
+                    <label for="cnumber" class="block text-sm font-medium text-amber-800 mb-2">Contact Number</label>
+                    <input type="text" id="cnumber" name="cnumber" 
+                           class="w-full px-3 py-2 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500">
+                </div>
+                
+                <div>
+                    <label for="start_day" class="block text-sm font-medium text-amber-800 mb-2">Start Date</label>
+                    <input type="date" id="start_day" name="start_day" 
+                           class="w-full px-3 py-2 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500">
+                </div>
+                
+                <div>
+                    <label for="skills" class="block text-sm font-medium text-amber-800 mb-2">Skills</label>
+                    <select id="skills" name="skills" 
+                            class="w-full px-3 py-2 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500">
+                        <option value="communication">Communication</option>
+                        <option value="firstaid">First Aid</option>
+                        <option value="physical fitness">Physical Fitness</option>
+                        <option value="technology skills">Technology Skills</option>
+                        <option value="organzing skills">Organizing Skills</option>
+                        <option value="others">Others</option>
+                    </select>
+                </div>
+                
+                <div id="other_input_div" class="hidden">
+                    <label for="other_input" class="block text-sm font-medium text-amber-800 mb-2">Specify Skill</label>
+                    <input type="text" id="other_input" name="other_input" 
+                           class="w-full px-3 py-2 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500" 
+                           placeholder="Enter your skill type">
+                </div>
+                
+                <button type="submit" 
+                        class="w-full bg-amber-700 text-white py-2 px-4 rounded-lg hover:bg-amber-800 transition-colors font-medium">
+                    Submit Request
+                </button>
+            </form>
+        </div>
+        
+        <!-- Right Section: Messages -->
+        <div class="w-1/4 p-6 bg-gray-50">
+            <h2 class="text-xl font-bold mb-4 text-amber-900">Messages</h2>
+            <textarea id="v_message" name="v_message" rows="8" 
+                      class="w-full px-3 py-2 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500" 
+                      placeholder="Type your message here..."></textarea>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('skills').addEventListener('change', function() {
+            const otherInputDiv = document.getElementById('other_input_div');
+            otherInputDiv.style.display = this.value === 'others' ? 'block' : 'none';
+            if (this.value === 'others') {
+                document.getElementById('other_input').required = true;
+            } else {
+                document.getElementById('other_input').required = false;
+            }
+        });
+    </script>
+</body>
+</html>

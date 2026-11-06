@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Applications - {{ camp.name }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex justify-center items-center">
+
+    <div class="bg-white shadow-lg rounded-lg p-6 max-w-4xl w-full">
+        <h2 class="text-3xl font-bold text-gray-800 text-center mb-6">Manage Applications</h2>
+
+        {% if applications %}
+            <div class="space-y-4">
+                {% for application in applications %}
+                    <div class="bg-gray-50 p-5 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-xl font-semibold text-gray-700">{{ application.volunteer_email }}</h3>
+                        <p class="text-sm text-gray-500">Applied on: {{ application.applied_at|date:"F j, Y" }}</p>
+                        {% if application.message %}
+                            <p class="mt-2 text-gray-600"><strong>Message:</strong> {{ application.message }}</p>
+                        {% endif %}
+                        {% if application.resume %}
+                            <p class="mt-2 text-gray-600">
+                                <strong>Resume:</strong> 
+                                <a href="{{ application.resume.url }}" target="_blank" class="text-blue-500 hover:underline">View Resume</a>
+                            </p>
+                        {% endif %}
+                        
+                        <form method="POST" action="{% url 'update_application_status' application.id %}" class="mt-4">
+                            {% csrf_token %}
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Update Status:</label>
+                            <select name="status" class="block w-full border rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-400">
+                                <option value="pending" {% if application.status == "pending" %}selected{% endif %}>Pending</option>
+                                <option value="accepted" {% if application.status == "accepted" %}selected{% endif %}>Accepted</option>
+                                <option value="rejected" {% if application.status == "rejected" %}selected{% endif %}>Rejected</option>
+                            </select>
+                            <button type="submit" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Update</button>
+                        </form>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center text-gray-500">No applications received yet.</p>
+        {% endif %}
+
+        <div class="mt-6 text-center">
+            <a href="/chome/" class="text-blue-500 hover:underline">← Back to Camp Dashboard</a>
+        </div>
+    </div>
+
+</body>
+</html>

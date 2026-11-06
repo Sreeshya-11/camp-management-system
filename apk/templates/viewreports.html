@@ -1,0 +1,90 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+    <div class="w-full max-w-lg bg-white p-8 rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold mb-6">My Reports</h1>
+        <ul>
+            {% for report in reports %}
+                <li class="border-b border-gray-300 py-4">
+                    <p><strong>Type:</strong> {{ report.get_report_type_display }}</p>
+                    {% if report.location %}
+                        <p><strong>Location:</strong> {{ report.location }}</p>
+                    {% endif %}
+                    <p><strong>Description:</strong> {{ report.description }}</p>
+                    {% if report.photo %}
+                        <img src="{{ report.photo.url }}" alt="Report Photo" class="w-24 h-24 rounded-lg mt-2">
+                    {% endif %}
+                    <p><strong>Reported At:</strong> {{ report.reported_at }}</p>
+                    <form method="POST" action="{% url 'delete_report' report.id %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                    </form>
+                </li>
+            {% empty %}
+                <li>No reports found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>  {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-bold">Camp Management</h1>
+            <div class="flex space-x-4">
+                <a href="{% url 'home' %}" class="bg-blue-500 hover:bg-gray-600 text-white py-2 px-4 rounded-lg">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center p-8">
+        <div class="w-full max-w-6xl bg-white rounded-lg shadow-lg p-8">
+            <h1 class="text-3xl font-bold text-center mb-8">My Reports</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
+                {% for report in reports %}
+                    <div class="w-full max-w-xs bg-white border border-gray-300 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 transform hover:scale-105 p-4">
+                        <h2 class="text-xl font-semibold mb-2">{{ report.get_report_type_display }}</h2>
+                        {% if report.location %}
+                            <p class="text-gray-600"><strong>Location:</strong> {{ report.location }}</p>
+                        {% endif %}
+                        <p class="text-gray-800 mb-2"><strong>Description:</strong> {{ report.description }}</p>
+                        {% if report.photo %}
+                            <img src="{{ report.photo.url }}" alt="Report Photo" class="w-full h-32 object-cover rounded-lg mb-2 transition-transform duration-300 transform hover:scale-110">
+                        {% endif %}
+                        <p class="text-gray-500 text-sm"><strong>Reported At:</strong> {{ report.reported_at }}</p>
+                        <form method="POST" action="{% url 'delete_report' report.id %}" class="mt-4">
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors duration-300 transform hover:scale-105 w-full">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                {% empty %}
+                    <div class="col-span-1 md:col-span-2 lg:col-span-3 text-center text-gray-500">
+                        No reports found.
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>

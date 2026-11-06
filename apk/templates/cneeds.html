@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Need Report</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom styling to make the page visually appealing */
+        body {
+            background-color: #f7f7f7;
+            font-family: 'Roboto', sans-serif;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .form-title {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #4caf50;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+        }
+        textarea {
+            resize: vertical;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 1.2rem;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1 class="form-title">Create a Need Report</h1>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="needs">Report Type:</label>
+                <select id="needs" name="needs" onchange="showAmountField()">
+                    <option value="clothes">Clothes</option>
+                    <option value="firstaid">First Aid Kit</option>
+                    <option value="food">Food</option>
+                    <option value="groceries">Groceries</option>
+                    <option value="stationary">Stationary</option>
+                    <option value="cash">Cash</option>
+                </select>
+            </div>
+
+            <!-- Amount input field for "cash" category -->
+            <div id="amount-field" class="form-group" style="display: none;">
+                <label for="amount_required">Amount Required (in USD):</label>
+                <input type="number" id="amount_required" name="amount_required" step="0.01" min="0" placeholder="Enter amount required" />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Specify your needs:</label>
+                <textarea id="description" name="description" rows="4" placeholder="Enter description"></textarea>
+            </div>
+
+            <button type="submit">Submit Report</button>
+        </form>
+    </div>
+
+    <script>
+        // Function to show/hide the amount field when the "cash" category is selected
+        function showAmountField() {
+            var needType = document.getElementById("needs").value;
+            var amountField = document.getElementById("amount-field");
+            if (needType === "cash") {
+                amountField.style.display = "block";
+            } else {
+                amountField.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

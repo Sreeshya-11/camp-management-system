@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Evacuation Route</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h1 class="text-2xl font-bold mb-6 text-gray-800">Add Evacuation Route</h1>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label for="start_location_name" class="block text-gray-700">Start Location Name:</label>
+                <input type="text" name="start_location_name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+            <div>
+                <label for="end_location_name" class="block text-gray-700">End Location Name:</label>
+                <input type="text" name="end_location_name" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+            <div>
+                <label for="distance_meters" class="block text-gray-700">Distance (meters):</label>
+                <input type="number" name="distance_meters" step="0.1" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+            <div>
+                <label for="route_type" class="block text-gray-700">Route Type:</label>
+                <select name="route_type" class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="P">Primary</option>
+                    <option value="S">Secondary</option>
+                </select>
+            </div>
+
+            <div class="flex items-center">
+                <input type="checkbox" name="is_accessible" id="is_accessible" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                <label for="is_accessible" class="ml-2 block text-gray-700">Accessible</label>
+            </div>
+
+            <div class="flex items-center">
+                <input type="checkbox" name="is_safe_zone" id="is_safe_zone" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                <label for="is_safe_zone" class="ml-2 block text-gray-700">Safe Zone</label>
+            </div>
+
+            <div>
+                <button type="submit" class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Add Route</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

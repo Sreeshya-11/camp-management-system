@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Requests</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f9f9f9; }
+        .container { max-width: 1200px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); }
+        h2 { font-size: 28px; font-weight: bold; margin-bottom: 20px; text-align: center; color: #333; }
+        .search-container { display: flex; gap: 10px; margin-bottom: 20px; }
+        input, select { padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 4px; background-color: #f4f4f4; flex: 1; }
+        .need-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .need-card { background-color: #fff; border: 1px solid #ddd; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease; }
+        .need-card:hover { transform: translateY(-5px); }
+        .buttons { margin-top: 15px; text-align: center; }
+        .buttons button { padding: 10px 20px; font-size: 16px; background-color: #0069d9; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+        #donorModal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 5px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); z-index: 1000; }
+        .modal-content input { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
+        .modal-content button { background-color: #28a745; color: white; padding: 10px; border: none; width: 100%; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>View Donation Requests</h2>
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Search needs, description, camp name...">
+            <select id="category-filter">
+                <option value="all">All Categories</option>
+                <option value="clothes">Clothes</option>
+                <option value="firstaid">First Aid Kit</option>
+                <option value="food">Food</option>
+                <option value="groceries">Groceries</option>
+                <option value="stationary">Stationary</option>
+                <option value="cash">Cash</option>
+            </select>
+        </div>
+        <div class="need-list">
+            {% for report in reports %}
+                <div class="need-card" data-category="{{ report.needs }}" data-description="{{ report.description }}" data-camp="{{ report.user.name }}">
+                    <h3>{{ report.get_needs_display }}</h3>
+                    <p><strong>Description:</strong> {{ report.description }}</p>
+                    <p><strong>Camp Name:</strong> {{ report.user.name }}</p>
+                    <p><strong>Location:</strong> {{ report.user.location }}</p>
+                    <div class="buttons">
+                        <button onclick="openModal('{{ report.id }}')">Can Donate</button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="donorModal">
+        <h3>Enter Your Details</h3>
+        <input type="hidden" id="donationNeedId">
+        <label>Name:</label>
+        <input type="text" id="donorName" value="{{ request.session.username }}" readonly><br>
+        <label>Email:</label>
+        <input type="email" id="donorEmail" value="{{ request.session.email }}" readonly><br>
+        <label>Phone:</label>
+        <input type="text" id="donorPhone" value="{{ request.session.phone_number }}" readonly><br>
+        <button onclick="submitDonation()">Confirm Donation</button>
+        <button onclick="closeModal()">Cancel</button>
+    </div>
+
+    <script>
+        function filterResults() {
+            let searchValue = document.getElementById("search-bar").value.toLowerCase();
+            let selectedCategory = document.getElementById("category-filter").value.toLowerCase();
+            let cards = document.querySelectorAll(".need-card");
+
+            cards.forEach(card => {
+                let description = card.getAttribute("data-description").toLowerCase();
+                let camp = card.getAttribute("data-camp").toLowerCase();
+                let category = card.getAttribute("data-category").toLowerCase();
+
+                let matchesSearch = description.includes(searchValue) || camp.includes(searchValue) || category.includes(searchValue);
+                let matchesCategory = (selectedCategory === "all" || category === selectedCategory);
+
+                card.style.display = (matchesSearch && matchesCategory) ? "block" : "none";
+            });
+        }
+
+        document.getElementById("search-bar").addEventListener("input", filterResults);
+        document.getElementById("category-filter").addEventListener("change", filterResults);
+
+        function openModal(needId) {
+            document.getElementById("donationNeedId").value = needId;
+    
+            // Fetch user session data via AJAX
+            fetch("/get_user_session/")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("donorName").value = data.username || "";
+                    document.getElementById("donorEmail").value = data.email || "";
+                    document.getElementById("donorPhone").value = data.phone_number || "";
+                    document.getElementById("donorModal").style.display = "block";
+                })
+                .catch(error => console.error("Error fetching session data:", error));
+        }
+    
+        function closeModal() {
+            document.getElementById("donorModal").style.display = "none";
+        }
+
+        function submitDonation() {
+            let needId = document.getElementById("donationNeedId").value;
+
+            fetch(`/confirm_donation/${needId}/`, {
+                method: "POST",
+                headers: { 
+                    "X-CSRFToken": "{{ csrf_token }}", 
+                    "Content-Type": "application/json" 
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => { 
+                alert(data.success || data.error);
+                closeModal();
+                location.reload();
+            })
+            .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>

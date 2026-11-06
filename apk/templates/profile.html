@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles for profile cards */
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+            padding: 2rem; /* Larger padding */
+            max-width: 600px; /* Increased width */
+            margin: 2rem auto; /* Center the card */
+            text-align: center; /* Center text and profile picture */
+        }
+
+        .profile-pic {
+            border-radius: 50%; /* Make the profile picture circular */
+            max-width: 180px; /* Size of profile pic */
+            max-height: 180px;
+            object-fit: cover;
+            margin: 0 auto; /* Center the image */
+        }
+
+        .form-group {
+            margin-top: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 1rem; /* Increased input padding */
+            border-radius: 0.5rem; /* Increased border radius */
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="password"]:focus,
+        .form-group input[type="file"]:focus {
+            border-color: #a5b4fc;
+            outline: none;
+        }
+
+        .btn {
+            background-color: #4f46e5;
+            color: #ffffff;
+            padding: 0.75rem 2rem; /* Increased button padding */
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1.25rem; /* Increased button font size */
+            cursor: pointer;
+            margin-top: 1.5rem;
+        }
+
+        .btn:hover {
+            background-color: #434190;
+        }
+
+        .link {
+            display: block;
+            margin-top: 1.5rem;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+        
+        <div class="card bg-white p-6 rounded-lg shadow-lg mx-auto max-w-md">
+            <!-- Profile Picture Section -->
+            <div class="flex justify-center mb-4">
+                {% if user.profilepic %}
+                    <img src="{{ user.profilepic.url }}" class="profile-pic w-32 h-32 rounded-full shadow-md" alt="Profile Picture">
+                {% else %}
+                    <img src="/static/images/default-profile.png" class="profile-pic w-32 h-32 rounded-full shadow-md" alt="Default Profile Picture">
+                {% endif %}
+            </div>
+
+        <!-- User Details Below Profile Picture -->
+        <h1 class="text-3xl font-semibold mt-6">User Profile</h1> <!-- Increased heading size -->
+        <div class="mt-4 text-lg">
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>AadhaarNumber:</strong>{{ user.Aadhaar_No }}</p>
+            <p><strong>Phone:</strong>{{ user.phone }}
+            <p><strong>WardNumber:</strong>{{ user.Ward_No }}</p>
+        </div>
+        
+        <button id="editButton" class="btn mt-4">Edit Profile</button>
+    </div>
+
+    <!-- Card for Editing User Profile -->
+    <div id="editCard" class="card hidden">
+        <h2 class="text-2xl font-semibold mt-6">Edit Profile</h2>
+        <form method="POST" action="{% url 'editprofile' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="{{ user.username }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter new password" required>
+            </div>
+          
+            <div class="form-group">
+                <label for="profile_pic">Profile Picture:</label>
+                <input type="file" id="profile_pic" name="profile_pic">
+            </div>
+       
+            <button type="submit" class="btn">Update Profile</button>
+        </form>
+
+        <a href="{% url 'donorhome' %}" class="link">Back to Home</a>
+    </div>
+
+    <script>
+        document.getElementById('editButton').addEventListener('click', function() {
+            var editCard = document.getElementById('editCard');
+            if (editCard.classList.contains('hidden')) {
+                editCard.classList.remove('hidden');
+            } else {
+                editCard.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

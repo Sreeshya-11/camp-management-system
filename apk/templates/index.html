@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rescue Camp Management</title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
+        <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #000;
+            text-decoration: none;
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .navbar .nav-links li {
+            margin: 0 15px;
+        }
+
+        .navbar .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .navbar .btn-login {
+            background-color: #ff0000;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        /* Carousel Section Styles */
+        .carousel-container {
+            margin-top: 80px; /* Adjust for fixed navbar */
+            width: 100%;
+            background-color: #fff; /* White background for uniform appearance */
+            overflow: hidden; /* Hide overflow */
+        }
+
+        .carousel-track {
+            display: flex;
+            animation: scroll 30s linear infinite; /* Adjust speed here */
+        }
+
+        .carousel-track img {
+            width: auto; /* Maintain aspect ratio */
+            height: 400px; /* Set a fixed height */
+            margin: 0 5px; /* Space between images */
+            object-fit: contain; /* Ensure the entire image fits */
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); } /* Move fully across */
+        }
+
+        /* Features Section Styles */
+        .features {
+            padding: 4rem 20px;
+            background-color: #fff;
+        }
+
+        .features h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .feature-items {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .feature-item {
+            text-align: center;
+            width: 30%;
+            margin-bottom: 2rem;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+            padding: 1rem 0;
+            text-align: center;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+        .content-section {
+            padding: 4rem 20px;
+            background-color: #fff;
+            text-align: center;
+        }
+    
+        .content-section h2 {
+            margin-bottom: 2rem;
+        }
+    
+        .content-section p {
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.6;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+    
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+    
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+    
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+    
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .paste-button {
+  position: relative;
+  display: block;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.button {
+  background-color: black ;
+  color: white;
+  padding: 10px 15px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.dropdown-content {
+  display: none;
+  font-size: 13px;
+  position: absolute;
+  z-index: 1;
+  min-width: 200px;
+  background-color: #00000050;
+  border: 2px solid black;
+  border-radius: 0px 15px 15px 15px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 8px 10px;
+  text-decoration: none;
+  display: block;
+  font-weight: bold;
+  transition: 0.1s;
+}
+
+.dropdown-content a:hover {
+  background-color: white;
+  color: #212121;
+}
+
+.dropdown-content a:focus {
+  background-color: #212121;
+  color: black;
+}
+
+.dropdown-content #top:hover {
+  border-radius: 0px 13px 0px 0px;
+}
+
+.dropdown-content #bottom:hover {
+  border-radius: 0px 0px 13px 13px;
+}
+
+.paste-button:hover .dropdown-content {
+  display: block;
+}
+
+.btn-container {
+    width: 20%;
+    display: flex;
+    justify-content: space-around;
+}
+
+    </style>
+    </head>
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar">
+            <div class="container">
+                <a href="#" class="logo">RescueCamp</a>
+                <ul class="nav-links">
+                
+                    <!-- <li><a href="/camp/">Camp Registeration</a></li> -->
+
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="/adlogin/">Administrator</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div class="btn-container">
+                    <div class="paste-button">
+                        <button class="button">Register</button>
+                        <div class="dropdown-content">
+                            <a  id="top" href="/donorregistration/">Donor</a>
+                            <a id="bottom" href="/register/">User </a>
+                            <a id="bottom" href="/vregister/">Volunteer</a>
+                            <a id="bottom" href="/camp/">Camp</a>
+                        
+
+                        </div>
+                    </div>
+
+                    <div class="paste-button">
+                        <button class="button">Login</button>
+                        <div class="dropdown-content">
+                            <a  id="top" href="/donorlogin/">Login as Donor</a>
+                            <a id="bottom" href="/login/">Login as User</a>
+                            <a id="bottom" href="/vlogin/">Login as Volunteer</a>
+                            <a id="bottom" href="/clogin/">Login as Camp</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Carousel Section -->
+            <section class="carousel-container">
+                <div class="carousel-track">
+                    <img
+                        src="https://api.thesecretariat.in/the-secretariat-api/public//file/download-content-attachment?fileId=d1569c102dc64db5bb63ad98a7acb062"
+                        alt="Image 1">
+                    <img
+                        src="https://www.cmtoolkit.org/sites/default/files/styles/d08/public/2021-08/About%20Camp%20Management.jpg?itok=JesL3VW1"
+                        alt="Image 2">
+                    <img
+                        src="https://english.mathrubhumi.com/image/contentid/policy:1.9774158:1722404650/armed%20forces%20wayanad.jpg?$p=59cbbb3&f=16x10&w=852&q=0.8"
+                        alt="Image 3">
+                    <img
+                        src="https://media.assettype.com/evoindia%2F2024-08-26%2F2mcrqun7%2FIMG_9069.jpg"
+                        alt="Image 4">
+                    <img
+                        src="https://www.financialexpress.com/wp-content/uploads/2024/07/Indian-Army-rescues-people-at-Wayanad.jpg"
+                        alt="Image 5">
+                </div>
+            </section>
+
+            <section class="content-section">
+                <h2>Our Mission</h2>
+                <p>
+                    In times of crisis, effective coordination and resource
+                    management are crucial for timely assistance. Our proposed
+                    platform serves as a comprehensive solution for managing and
+                    coordinating disaster relief efforts, bringing together
+                    camps, donors, volunteers, and general users into a unified
+                    system.
+                </p>
+
+            </section>
+            <!-- Features Section -->
+
+            <section id="features" class="features">
+                <div class="container">
+                    <h2>Features</h2>
+                    <div class="feature-items">
+                        <div class="feature-item">
+                            <img
+                                src="https://images.deccanherald.com/deccanherald/2024-08/425d44e5-25e2-4627-a7a6-e10395258fca/file7wkdyku8gnpk6hfkfm3.jpg?w=1200&h=675&auto=format%2Ccompress&fit=max&enlarge=true"
+                                alt="Feature Image 1" class="feature-icon">
+
+                            <h3>Emergency Response Coordination</h3>
+                            <p>Streamline the coordination of rescue teams and
+                                resources in real-time.</p>
+
+                        </div>
+                        <div class="feature-item">
+                            <img
+                                src="https://2.bp.blogspot.com/-vqdjwl9W3Lw/W_j1-0WXuqI/AAAAAAAACjo/MasaT7PoP6I1dTh6j3VuIKb-61AW5XTGACLcBGAs/s1600/IMG-20181124-WA0016.jpg"
+                                alt="Feature Image 2" class="feature-icon">
+                            <h3>Resource Management</h3>
+                            <p>Track and manage essential resources such as
+                                food, medical supplies, and equipment.</p>
+
+                        </div>
+                        <div class="feature-item">
+                            <img
+                                src="https://media.assettype.com/outlookindia/import/imgnew.outlookindia.com/uploadimage/library/16_9/16_9_5/Flood-Relief-Camp_4_20180830_1642512241.jpg?w=1200&h=675&auto=format%2Ccompress&fit=max&enlarge=true"
+                                alt="Feature Image 3" class="feature-icon">
+                            <h3>Incident Reporting</h3>
+                            <p>Quickly report and track incidents with detailed
+                                logs and updates.</p>
+                        </div>
+                    </div>
+                    <h3>Key Features</h3>
+                    <p>
+                        <strong>Item Requests:</strong> Camps and organizations
+                        can easily post requests for supplies and services,
+                        ensuring that the needs of affected individuals are met
+                        promptly. This feature encourages a proactive approach
+                        to disaster relief.
+                    </p>
+                    <p>
+                        <strong>Donation Tracking:</strong> Transparency is
+                        vital in disaster response. Our platform allows donors
+                        to track the status of their contributions from the
+                        moment they are offered to delivery, ensuring
+                        accountability and trust.
+                    </p>
+                    <p>
+                        <strong>Real-Time Updates:</strong> Stay informed with
+                        instant notifications about ongoing efforts, new
+                        requests, and updates on the status of donations and
+                        relief activities. This feature keeps all stakeholders
+                        engaged and informed.
+                    </p>
+                    <p>
+                        <strong>Administrative Tools:</strong> The platform
+                        includes robust tools for messaging and notifications,
+                        enabling effective communication between donors, camps,
+                        and volunteers. Inventory management features help
+                        organizations track resources and allocate them
+                        effectively.
+                    </p>
+                    <p>
+                        <strong>Geolocation and Mapping:</strong> Understanding
+                        the situational landscape is key during disasters. Our
+                        integrated mapping capabilities provide crucial
+                        geolocation data, allowing users to visualize affected
+                        areas and coordinate efforts more effectively.
+                    </p>
+                    <h3>Community Involvement</h3>
+                    <p>
+                        The success of disaster relief efforts depends on
+                        community engagement. Our platform not only streamlines
+                        operations but also strengthens community involvement by
+                        connecting local volunteers with organizations that need
+                        support. Users can participate in various ways, whether
+                        by donating items, volunteering their time, or spreading
+                        awareness about ongoing efforts.
+                    </p>
+                    <h3>Why Choose Us?</h3>
+                    <p>
+                        Our comprehensive approach to disaster management
+                        enhances the efficiency of response operations and
+                        ensures that resources are allocated effectively. By
+                        integrating various stakeholders into a single platform,
+                        we aim to create a seamless experience that ultimately
+                        leads to more effective and timely assistance during
+                        times of crisis.
+                    </p>
+                    <p>
+                        Join us in our mission to improve disaster response and
+                        recovery efforts. Together, we can make a difference!
+                    </p>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="contact">
+                <div class="container">
+                    <h2>Contact Us</h2>
+                    <p>If you have any inquiries or need support, please reach
+                        out to us. We're here to assist you in every step of
+                        your rescue operations.</p>
+                    <a href="mailto:support@rescuecamp.com"
+                        class="btn-contact">Email Us</a>
+                </div>
+            </section>
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="container">
+                    <p>&copy; 2024 RescueCamp. All rights reserved.</p>
+                </div>
+            </footer>
+        </body>
+    </html>

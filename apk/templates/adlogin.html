@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-r from-blue-500 to-cyan-500 h-screen flex justify-center items-center">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <h2 class="text-3xl font-bold text-center mb-6 text-gray-700">Admin Login</h2>
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <div class="relative">
+                <label for="name" class="sr-only">Username</label>
+                <input type="text" id="name" required name="name" placeholder="Username" class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <i class="fas fa-user absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
+            <div class="relative">
+                <label for="password" class="sr-only">Password</label>
+                <input type="password" id="password" required name="password" placeholder="Password" class="w-full p-3 pl-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <i class="fas fa-lock absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400"></i>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Login" class="w-full bg-purple-700 text-white font-semibold py-3 rounded-lg hover:bg-purple-600 transition duration-300 cursor-pointer">
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

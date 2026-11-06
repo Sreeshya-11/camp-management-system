@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center min-h-screen p-6">
+
+    <div class="bg-white p-10 rounded-2xl shadow-xl w-full max-w-4xl">
+        <div class="text-center mb-8">
+            <h2 class="text-4xl font-extrabold text-gray-800">🔔 Notifications</h2>
+            <p class="text-lg text-gray-600 mt-2">From {{ camp.name }} - {{ camp.location }}</p>
+        </div>
+
+        {% if n %}
+            <div class="space-y-6">
+                {% for notif in n %}
+                    <div class="bg-gray-50 p-6 rounded-xl shadow-md flex justify-between items-center border-l-4 border-blue-600">
+                        <div class="flex-1">
+                            <p class="text-gray-900 font-semibold text-lg">{{ notif.message }}</p>
+                            <p class="text-sm text-gray-500 mt-1">{{ notif.created_at }}</p>
+                        </div>
+                        <a href="/delete_notif/{{ notif.id }}" class="text-red-500 hover:text-red-600 text-xl font-bold transition duration-200 transform hover:scale-110">❌</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center text-gray-500 text-lg font-medium">No notifications available.</p>
+        {% endif %}
+
+        <div class="flex justify-between mt-10">
+            <a href="/chome/" class="px-6 py-3 bg-blue-500 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-200 transform hover:scale-105">🏠 Back to Home</a>
+            <a href="/delete_all_notifs/" class="px-6 py-3 bg-red-500 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-red-600 transition duration-200 transform hover:scale-105">🗑️ Delete All</a>
+            <a href="/notif_from_camp_to_evry1/" class="px-6 py-3 bg-blue-500 text-white text-lg font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-200 transform hover:scale-105">🔔 Add Notifications</a>
+
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+            padding: 1rem;
+            max-width: 400px;
+            margin: 1rem auto;
+            text-align: center;
+        }
+
+        .profile-pic {
+            border-radius: 50%;
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            margin: 0 auto;
+        }
+
+        .btn {
+            background-color: #4f46e5;
+            color: #ffffff;
+            padding: 0.5rem 1.5rem;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background-color: #434190;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            background-color: #f9fafb;
+            margin-bottom: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #a5b4fc;
+            outline: none;
+            background-color: #ffffff;
+        }
+
+        .form-group label {
+            margin-bottom: 0.5rem; /* Space between label and input */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex justify-center items-center">
+    <div class="card bg-white p-6 rounded-lg shadow-lg mx-auto max-w-md">
+        <!-- Profile Picture Section -->
+        <div class="flex justify-center mb-4">
+            {% if donor_profile.profile_picture %}
+                <img src="{{ donor_profile.profile_picture.url }}" class="profile-pic w-32 h-32 rounded-full shadow-md" alt="Profile Picture">
+            {% else %}
+                <img src="/static/images/default-profile.png" class="profile-pic w-32 h-32 rounded-full shadow-md" alt="Default Profile Picture">
+            {% endif %}
+        </div>
+    
+        <!-- Donor Details -->
+        <h1 class="text-2xl font-bold text-center mb-6">Donor Profile</h1>
+    
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left text-base">
+            <!-- Email -->
+            <div class="form-group flex flex-col">
+                <p class="font-semibold">Email:</p>
+                <p>{{ donor_profile.email }}</p>
+            </div>
+            
+            <!-- Username -->
+            <div class="form-group flex flex-col">
+                <p class="font-semibold">Username:</p>
+                <p>{{ donor_profile.username }}</p>
+            </div>
+    
+            <!-- Phone Number -->
+            <div class="form-group flex flex-col">
+                <p class="font-semibold">Phone:</p>
+                <p>{{ donor_profile.phone_number }}</p>
+            </div>
+    
+            <!-- Address -->
+            <div class="form-group flex flex-col">
+                <p class="font-semibold">Address:</p>
+                <p>{{ donor_profile.address }}</p>
+            </div>
+    
+            <!-- Bio -->
+            <div class="form-group flex flex-col">
+                <p class="font-semibold">Bio:</p>
+                <p>{{ donor_profile.bio }}</p>
+            </div>
+    
+            <!-- Registration Date -->
+            <div class="form-group flex flex-col">
+                <p class="font-semibold">Registered on:</p>
+                <p>{{ donor_profile.registration_date|date:"F j, Y" }}</p>
+            </div>
+    
+            <!-- Total Donations -->
+            <div class="form-group flex flex-col">
+                <p class="font-semibold">Total Donations:</p>
+                <p>${{ donor_profile.total_donations }}</p>
+            </div>
+        </div>
+        <button id="editButton" class="btn">Edit Profile</button>
+        <a href="{% url 'donorhome' %}" class="text-indigo-600 text-sm mt-2 inline-block">Back to Home</a>
+    </div>
+
+    <!-- Edit Profile Section (not changed) -->
+    <div id="editCard" class="card hidden">
+        <h2 class="text-lg font-semibold">Edit Profile</h2>
+        <form method="POST" action="{% url 'editdonorprofile' %}" enctype="multipart/form-data" class="text-left">
+            {% csrf_token %}
+            <div class="grid gap-4">
+                <!-- Username Field -->
+                <div class="form-group flex flex-col">
+                    <label for="username" class="font-semibold">Username:</label>
+                    <input type="text" id="username" name="username" value="{{ donor_profile.username }}" placeholder="Username" required>
+                </div>
+
+                <!-- Phone Number Field -->
+                <div class="form-group flex flex-col">
+                    <label for="phone_number" class="font-semibold">Phone Number:</label>
+                    <input type="text" id="phone_number" name="phone_number" value="{{ donor_profile.phone_number }}" placeholder="Phone Number" required>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group flex flex-col">
+                    <label for="email" class="font-semibold">Email:</label>
+                    <input type="email" id="email" name="email" value="{{ donor_profile.email }}" placeholder="Email" required readonly>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group flex flex-col">
+                    <label for="password" class="font-semibold">New Password:</label>
+                    <input type="password" id="password" name="password" placeholder="Enter new password" required>
+                </div>
+
+                <!-- Address Field -->
+                <div class="form-group flex flex-col">
+                    <label for="address" class="font-semibold">Address:</label>
+                    <input type="text" id="address" name="address" value="{{ donor_profile.address }}" placeholder="Address">
+                </div>
+
+                <!-- Bio Field -->
+                <div class="form-group flex flex-col">
+                    <label for="bio" class="font-semibold">Bio:</label>
+                    <textarea id="bio" name="bio" rows="2" placeholder="Bio">{{ donor_profile.bio }}</textarea>
+                </div>
+
+                <!-- Profile Picture Field -->
+                <div class="form-group flex flex-col">
+                    <label for="profile_picture" class="font-semibold">Profile Picture:</label>
+                    <input type="file" id="profile_picture" name="profile_picture">
+                </div>
+
+                <!-- Submit Button -->
+                <div>
+                    <button type="submit" class="btn w-full">Update Profile</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Link to Go Back -->
+        <a href="{% url 'donorhome' %}" class="text-indigo-600 text-sm mt-2 inline-block">Back to Home</a>
+    </div>
+
+    <!-- Success/Error Messages -->
+    {% if messages %}
+        <div class="mt-4 text-green-600 text-center">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Toggle Edit Profile Card -->
+    <script>
+        document.getElementById('editButton').addEventListener('click', function() {
+            var editCard = document.getElementById('editCard');
+            if (editCard.classList.contains('hidden')) {
+                editCard.classList.remove('hidden');
+            } else {
+                editCard.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

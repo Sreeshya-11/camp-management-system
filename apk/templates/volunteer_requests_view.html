@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Needs</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 h-screen flex justify-center items-center">
+    <div class="w-full max-w-6xl p-8">
+        <!-- Centered Heading -->
+        <h2 class="text-2xl font-semibold mb-6 text-center">Volunteer Requests</h2>
+
+        <!-- Container for reports -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for need in req %}
+                <div class="bg-white p-6 rounded-lg shadow-md border border-gray-300 w-full relative">
+                    <div>
+                        <p><strong>Camp Name:</strong> {{ need.cname }}</p>
+                        <p><strong>Camp Contact Number:</strong> {{ need.cnumber }}</p>
+                        <p><strong>Number of Days:</strong> {{ need.days }}</p>
+                        <p><strong>Skills:</strong> {{ need.skills }}</p>
+                        <p><strong>Description:</strong> {{ need.description }}</p>
+                        
+                    </div>
+                    <!-- Even smaller Donate Button -->
+                    <a href="/vol_notification/" class="absolute bottom-3 right-3 bg-blue-500 text-white px-3 py-1 text-xs rounded-full shadow-lg hover:bg-blue-600 transition duration-300">
+                        Apply
+                    </a>
+                </div>
+            {% empty %}
+                <div class="text-center text-gray-500 w-full">
+                    <p>No needs submitted yet.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@^2.2/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .profile-pic {
+            border-radius: 50%;
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex flex-col items-center">
+    <!-- Success/Error Messages -->
+    {% if messages %}
+        <div class="mt-4 text-green-600 text-center w-full">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="card bg-white p-6 rounded-lg shadow-lg mx-auto max-w-md mt-6">
+        <!-- Profile Picture Section -->
+        <div class="flex justify-center mb-4">
+            {% if profile.profile_picture %}
+                <img src="{{ profile.profile_picture.url }}" class="profile-pic w-32 h-32 rounded-full shadow-md" alt="Profile Picture">
+            {% else %}
+                <img src="https://woodfibreinsulation.co.uk/wp-content/uploads/2017/04/blank-profile-picture-973460-1-1-1024x1024.png" class="profile-pic w-32 h-32 rounded-full shadow-md" alt="Default Profile Picture">
+            {% endif %}
+        </div>
+
+        <!-- Volunteer Details -->
+        <h1 class="text-2xl font-bold text-center mb-6">Volunteer Profile</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left text-base">
+            <div class="form-group flex flex-col">
+                <p class="font-semibold">Username:</p>
+                <p>{{ profile.username }}</p>
+            </div>
+            <div class="form-group flex flex-col">
+                <p class="font-semibold">Skills:</p>
+                <p>{{ profile.skills }}</p>
+            </div>
+            <div class="form-group flex flex-col">
+                <p class="font-semibold">Location:</p>
+                <p>{{ profile.location }}</p>
+            </div>
+        </div>
+
+        <button id="editButton" class="bg-blue-500 text-white px-4 py-2 rounded mt-4">Edit Profile</button>
+        <a href="{% url 'vdashboard' %}" class="text-indigo-600 text-sm mt-2 inline-block">Back to Home</a>
+    </div>
+
+    <!-- Edit Profile Section -->
+    <div id="editCard" class="card hidden mx-auto max-w-md mt-6 p-6 bg-white rounded-lg shadow-lg">
+        <h2 class="text-lg font-semibold">Edit Profile</h2>
+        <form method="POST" action="/editvprofile/" enctype="multipart/form-data" class="text-left">
+            {% csrf_token %}
+            <div class="grid gap-4">
+                <!-- Username Field -->
+                <div class="form-group flex flex-col">
+                    <label for="username" class="font-semibold">Username:</label>
+                    <input type="text" id="username" name="username" value="{{ profile.username }}" placeholder="Username" readonly class="border p-2 rounded">
+                </div>
+
+                <!-- Skills Field -->
+                <div class="form-group flex flex-col">
+                    <label for="skills" class="font-semibold">Skills:</label>
+                    <textarea id="skills" name="skills" placeholder="Skills" required class="border p-2 rounded">{{ profile.skills }}</textarea>
+                </div>
+
+                <!-- Location Field -->
+                <div class="form-group flex flex-col">
+                    <label for="location" class="font-semibold">Location:</label>
+                    <input type="text" id="location" name="location" value="{{ profile.location }}" placeholder="Location" required class="border p-2 rounded">
+                </div>
+
+                <!-- Profile Picture Field -->
+                <div class="form-group flex flex-col">
+                    <label for="profile_picture" class="font-semibold">Profile Picture:</label>
+                    <input type="file" id="profile_picture" name="profile_picture" class="border p-2 rounded">
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded w-full">Update Profile</button>
+            </div>
+        </form>
+
+        <a href="{% url 'vdashboard' %}" class="text-indigo-600 text-sm mt-2 inline-block">Back to Home</a>
+    </div>
+
+    <!-- Toggle Edit Profile Card -->
+    <script>
+        document.getElementById('editButton').addEventListener('click', function() {
+            var editCard = document.getElementById('editCard');
+            editCard.classList.toggle('hidden');
+        });
+    </script>
+</body>
+</html>

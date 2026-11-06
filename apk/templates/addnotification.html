@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Notification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="p-6">
+    <h1 class="text-3xl font-bold mb-4">Add Notification</h1>
+
+    {% if error %}
+        <div class="bg-red-500 text-white p-4 mb-4 rounded">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST" action="{% url 'addnotification' %}" class="space-y-4">
+        {% csrf_token %}
+        <div>
+            <label for="message" class="block text-lg font-medium">Notification Message</label>
+            <textarea id="message" name="message" rows="4" class="form-textarea mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" placeholder="Enter your notification message..."></textarea>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition">
+            Submit Notification
+        </button>
+    </form>
+</body>
+</html>

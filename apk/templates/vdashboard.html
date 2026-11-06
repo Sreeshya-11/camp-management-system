@@ -1,0 +1,101 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Volunteer Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="flex flex-col md:flex-row min-h-screen">
+        <!-- Sidebar -->
+        <div class="bg-blue-800 text-white w-full md:w-64 p-6">
+            <h2 class="text-2xl font-bold text-center mb-6">Volunteer Dashboard</h2>
+            <ul>
+                <li class="mb-4"><a href="{% url 'vdashboard' %}" class="flex items-center p-2 hover:bg-blue-600 rounded"><span class="ml-2">Dashboard</span></a></li>
+                <li class="mb-4"><a href="{% url 'vprofile' %}" class="flex items-center p-2 hover:bg-blue-600 rounded"><span class="ml-2">My Profile</span></a></li>
+                <li class="mb-4"><a href="{% url 'donation_requests_view' %}" class="flex items-center p-2 hover:bg-blue-600 rounded"><span class="ml-2">Donation Requests</span></a></li>
+                <li class="mb-4"><a href="{% url 'volunteer_requests_view' %}" class="flex items-center p-2 hover:bg-blue-600 rounded"><span class="ml-2">Volunteer Requests</span></a></li>
+                <li class="mb-4"><a href="{% url 'volunteerlist' %}" class="flex items-center p-2 hover:bg-blue-600 rounded"><span class="ml-2">Volunteers</span></a></li>
+                <li class="mb-4"><a href="{% url 'v_notif_to_volunteer' %}" class="flex items-center p-2 hover:bg-blue-600 rounded"><span class="ml-2">Notifications</span></a></li>
+                <li class="mb-4"><a href="{% url 'applications' %}" class="flex items-center p-2 hover:bg-blue-600 rounded"><span class="ml-2">Applications</span></a></li>
+                <li class="mb-4"><a href="{% url 'logout' %}" class="flex items-center p-2 hover:bg-blue-600 rounded"><span class="ml-2">Logout</span></a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-grow p-6">
+            <h1 class="text-3xl font-bold mb-4 text-gray-800">Welcome, {{ user.username }}!</h1>
+
+            <!-- Main Image -->
+            {% comment %} <div class="mb-6">
+                <img src="{% static 'img/chome1.jpg' %}" alt="Main Dashboard Image" 
+                     class="w-full h-72 object-cover rounded-lg shadow-lg">
+            </div> {% endcomment %}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Upcoming Tasks -->
+                <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <img src="{% static 'img/ch3.jpg' %}" alt="Upcoming Tasks" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Upcoming Tasks</h3>
+                    <p class="text-gray-600">You have 3 upcoming tasks.</p>
+                    <a href="#" class="text-blue-500 hover:underline">View Tasks</a>
+                </div>
+
+                <!-- Contributions -->
+                <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <img src="{% static 'img/ch4.jpg' %}" alt="Contributions" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Your Contributions</h3>
+                    <p class="text-gray-600">You've contributed to 5 events.</p>
+                </div>
+
+                <!-- Profile Completeness -->
+                <div class="bg-white p-4 rounded-lg shadow-lg">
+                    <img src="{% static 'img/ch6.jpg' %}" alt="Profile Status" class="w-full h-40 object-cover mb-4 rounded-lg">
+                    <h3 class="text-lg font-semibold">Profile Completeness</h3>
+                    <p class="text-gray-600">75% complete</p>
+                </div>
+            </div>
+
+            <!-- Kerala Flood Info Section -->
+            <div class="bg-red-100 p-6 rounded-lg shadow-md mb-6 border-l-4 border-red-600">
+                <h2 class="text-xl font-bold text-red-700">🚨 Kerala Flood Relief Mission</h2>
+                <p class="text-gray-700 mt-2">
+                    The Kerala floods have caused widespread devastation, displacing thousands and affecting livelihoods. 
+                    Heavy rains have resulted in flooding, landslides, and loss of property. Relief efforts are ongoing, 
+                    but volunteers play a crucial role in ensuring aid reaches those in need.
+                </p>
+                <h3 class="text-lg font-semibold text-red-700 mt-4">📍 Impact:</h3>
+                <ul class="list-disc pl-6 mt-2 text-gray-700">
+                    <li>Over 1 million people displaced</li>
+                    <li>Hundreds of homes and infrastructures destroyed</li>
+                    <li>Severe food and water shortages</li>
+                    <li>Urgent need for medical supplies and shelter</li>
+                </ul>
+                <h3 class="text-lg font-semibold text-red-700 mt-4">🤝 How You Can Help:</h3>
+                <ul class="list-disc pl-6 mt-2 text-gray-700">
+                    <li>Donate food, clothes, and medical supplies</li>
+                    <li>Assist in setting up relief camps</li>
+                    <li>Help coordinate transportation of essentials</li>
+                    <li>Spread awareness and encourage community participation</li>
+                </ul>
+            </div>
+
+            <!-- Volunteer Instructions -->
+            <div class="bg-green-100 p-6 rounded-lg shadow-md mb-6 border-l-4 border-green-600">
+                <h2 class="text-xl font-bold text-green-700">📌 Instructions for Volunteers</h2>
+                <ul class="list-disc pl-6 mt-2 text-gray-700">
+                    <li>🔹 Always wear protective gear while working in flood-affected areas.</li>
+                    <li>🔹 Keep emergency contacts and first-aid kits handy.</li>
+                    <li>🔹 Ensure hygiene while handling and distributing food items.</li>
+                    <li>🔹 Coordinate with local authorities for structured relief work.</li>
+                    <li>🔹 Report any medical emergencies to the nearest relief center.</li>
+                    <li>🔹 Offer mental health support—many victims are traumatized.</li>
+                </ul>
+            </div>
+
+            
+        </div>
+    </div>
+</body>
+</html>

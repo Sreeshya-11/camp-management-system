@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Form</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            margin: 0 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #4CAF50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input[type="number"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 12px 20px;
+            font-size: 18px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Form</h1>
+        <form id="paymentForm">
+            {% csrf_token %}
+            <input type="hidden" name="nid" id="nid" value="{{ nid.id }}">
+            <label for="amount">Enter Donation Amount (₹):</label>
+            <input type="number" id="amount" name="amount" min="1" step="any" required>
+            <button type="submit">Pay Now</button>
+            <div class="error-message" id="errorMessage"></div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('paymentForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            var amount = parseFloat(document.getElementById('amount').value);
+            var nid = document.getElementById('nid').value;
+            var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+            var errorMessage = document.getElementById('errorMessage');
+    
+            errorMessage.textContent = '';  // Reset error message
+    
+            if (isNaN(amount) || amount <= 0) {
+                errorMessage.textContent = 'Please enter a valid amount.';
+                return;
+            }
+    
+            // Ensure nid is properly passed
+            if (!nid) {
+                errorMessage.textContent = 'Invalid need ID';
+                return;
+            }
+    
+            // Request to your backend to create a Razorpay order
+            fetch(`/payment_form/${nid}/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken
+                },
+                body: JSON.stringify({ amount: amount })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    errorMessage.textContent = 'Error: ' + data.error;
+                    return;
+                }
+    
+                var rzp1 = new Razorpay({
+                    key: data.razorpay_key_id,
+                    amount: data.amount * 100,  // Convert to paise (100 paise = 1 INR)
+                    currency: 'INR',
+                    name: 'Donation for Need',
+                    description: 'Donate to support a cause',
+                    order_id: data.order_id,
+                    handler: function (response) {
+                        // After payment, confirm the payment
+                        fetch(`/confirm_payment/`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': csrfToken
+                            },
+                            body: JSON.stringify({
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(result => {
+                            if (result.success) {
+                                alert('Thank you for your donation!');
+                                // Redirect to the donation request page
+                                window.location.href = '/donation_requests/';  // Change this URL to the correct one
+                            } else {
+                                alert('Thank you for your donation!');
+                                // Redirect to the donation request page
+                                window.location.href = '/donation_requests/';
+                            }
+                        });
+                    },
+                    prefill: {
+                        name: "{{ request.user.username }}",  // Dynamic name based on the logged-in user
+                        email: "{{ request.user.email }}"  // Dynamic email based on the logged-in user
+                    }
+                });
+                rzp1.open();
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+    
+</body>
+</html>
